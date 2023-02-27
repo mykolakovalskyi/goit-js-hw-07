@@ -36,11 +36,13 @@ function selectImage(event) {
 `);
 
   instance.show();
+
+  document.addEventListener("keydown", escapeCloseKey);
 }
 
-document.addEventListener("keydown", (event) => {
-  const visible = instance.visible();
-  if (event.key === "Escape" && visible === true) {
+function escapeCloseKey(event) {
+  if (event.key === "Escape") {
     instance.close();
+    document.removeEventListener("keydown", escapeCloseKey);
   }
-});
+}
