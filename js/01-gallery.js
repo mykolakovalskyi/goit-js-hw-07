@@ -31,18 +31,25 @@ function selectImage(event) {
   }
   const selectedImage = event.target.dataset.source;
 
-  instance = basicLightbox.create(`
+  instance = basicLightbox.create(
+    `
     <img src="${selectedImage}" width="800" height="600">
-`);
+`,
+    {
+      onShow: (instance) => {
+        document.addEventListener("keydown", escapeCloseKey);
+      },
+      onClose: (instance) => {
+        document.removeEventListener("keydown", escapeCloseKey);
+      },
+    }
+  );
 
   instance.show();
-
-  document.addEventListener("keydown", escapeCloseKey);
 }
 
 function escapeCloseKey(event) {
   if (event.key === "Escape") {
     instance.close();
-    document.removeEventListener("keydown", escapeCloseKey);
   }
 }
